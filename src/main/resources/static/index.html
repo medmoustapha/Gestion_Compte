@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+ <link rel="stylesheet" href="css/style.css" type="text/css"/>
+ <script type="text/javascript" src="angular/angular.min.js"></script>
+ <script type="text/javascript" src="js/mayApp.js"></script>
+</head>
+<body ng-app="CompteApp" >
+<div ng-controller="CompteController">
+   <div class="col-md-6 col-sm-12 col-xs-12" >
+     <div class="panel panel-primary spacer" >
+	      <div class="panel-heading">Compte</div>
+	      <div class="panel-body">
+	        <form action="">
+	          <div class="form-group">
+	           <label class="control-label">numero Compte</label>
+	           <input type="text" ng-model="codeCompte" class="form-control"/>
+	           <button ng-click="chargerCompte()" class="btn btn-primary">ok</button>
+	          
+	          </div>
+	        </form>
+	       
+	      </div>
+	   </div>
+	 </div>
+     <div class="col-md-6 col-sm-12 col-xs-12" >
+	     <div class="panel panel-info spacer" >
+		      <div class="panel-heading">Etat du compte</div>
+			  <div class="panel-body">
+			     <div class="form-group">
+			       <label>solde:</label>
+			       <label>{{compte.solde}}</label>
+			     
+			     </div> 
+			     <div class="form-group">
+			       <label>date creation:</label>
+			       <label>{{compte.dateCreation}}</label>
+			     
+			     </div> 
+			  </div>
+	     </div>
+   </div>
+
+</div>
+</body>
+</html>
