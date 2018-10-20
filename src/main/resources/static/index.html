@@ -8,25 +8,30 @@
  <script type="text/javascript" src="angular/angular.min.js"></script>
  <script type="text/javascript" src="js/mayApp.js"></script>
 </head>
-<body ng-app="CompteApp" >
-<div ng-controller="CompteController">
+<body ng-app="compteApp" ng-controller="compteController">
+
    <div class="col-md-6 col-sm-12 col-xs-12" >
      <div class="panel panel-primary spacer" >
 	      <div class="panel-heading">Compte</div>
 	      <div class="panel-body">
-	        <form action="">
+	        
 	          <div class="form-group">
-	           <label class="control-label">numero Compte</label>
-	           <input type="text" ng-model="codeCompte" class="form-control"/>
-	           <button ng-click="chargerCompte()" class="btn btn-primary">ok</button>
-	          
-	          </div>
-	        </form>
-	       
+		          <div class="col-md-4 col-sm-8 col-xs-8" >
+			           <label class="control-label">Code Compte</label>
+			           <input type="text" ng-model="codeCompte" class="form-control"/>
+			           <button ng-click="chargerCompte()" class="btn btn-default">Charger</button>
+		          </div>
+	          </div> 
+	               
+	      </div>
+	      <div class="container red" ng-if="errorCompte!=null">
+			        {{errorCompte}}
 	      </div>
 	   </div>
+	   
 	 </div>
-     <div class="col-md-6 col-sm-12 col-xs-12" >
+	 <div ng-if="compte">
+     <div class="col-md-6 col-sm-12 col-xs-12">
 	     <div class="panel panel-info spacer" >
 		      <div class="panel-heading">Etat du compte</div>
 			  <div class="panel-body">
@@ -37,13 +42,85 @@
 			     </div> 
 			     <div class="form-group">
 			       <label>date creation:</label>
-			       <label>{{compte.dateCreation}}</label>
+			       <label>{{ compte.dateCreation | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+			     
+			     </div> 
+			      <div class="form-group" ng-if="compte.decouvert">
+			       <label>decouvert :</label>
+			       <label>{{ compte.decouvert }}</label>
+			     
+			     </div> 
+			     <div class="form-group" ng-if="compte.taux">
+			       <label>taux :</label>
+			       <label>{{ compte.taux }}</label>
 			     
 			     </div> 
 			  </div>
 	     </div>
    </div>
+   <div class="col-md-6 col-sm-12 col-xs-12">
+	     <div class="panel panel-primary spacer" >
+		      <div class="panel-heading">Opération</div>
+			  <div class="panel-body">
+			    <form >
+			      <div class="form-group">
+			        <label>versement:</label>
+			        <input type="radio" ng-model="operation.type" value="versement">
+			        <label>Retrait:</label>
+			        <input type="radio" ng-model="operation.type" value="retrait">
+			        <label>Virement:</label>
+			        <input type="radio" ng-model="operation.type" value="virement">
+			      </div>
+			      <div class="form-group">
+			       <span>
+			         <label>Montant:</label>
+			         <input type="number" ng-model="operation.montant" size="10">
+			       </span>
+			       <span ng-if="operation.type=='virement'">
+			         <label>Vers le compte:</label>
+			          <input type="text" ng-model="operation.cpt2">
+			       </span>
+			          
+			      </div>
+			      <button class="btn btn-primary" ng-click="saveOperation()">Save</button>
+			    </form>
+			    
+			  </div> 
+			  <div class="container red" ng-if="errorMessage!=null">
+			        {{errorMessage}}
+			    </div>
+		 </div>
+		 
+	</div>
+	<div class="col-md-6 col-sm-12 col-xs-12" >
+     <div class="panel panel-info spacer" >
+	      <div class="panel-heading">Operations du compte</div>
+	      <div class="panel-body">
+	      <table class="table table-striped">
+	       <thead>
+	         <tr>
+	           <th>Num</th><th>Date</th><th>Montant</th><th>Type</th>
+	         </tr>
+	       </thead>
+	       <tbody>
+	         <tr ng-repeat="op in pageOperations.operations">
+	           <td>{{ op.numeroOperation }}</td>
+	           <td>{{ op.dateOperation | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+	           <td>{{ op.montant }}</td>
+	           <td>{{ op.type }}</td>
+	         </tr>    
+	       </tbody>
+	      </table>
+	      <div>
+	      <ul class="nav nav-pills">
+	       <li ng-class="{active:$index==pageCourant}" ng-repeat="p in pages track by $index"><a ng-click="goToPage($index)">{{$index}}</a></li>
+	      </ul>
+	      </div>
+	      </div> 
+	 </div>
+	</div>
+ </div>
+   
 
-</div>
 </body>
 </html>
